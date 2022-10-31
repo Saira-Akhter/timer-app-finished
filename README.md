@@ -1,4 +1,4 @@
-Uses react-script:
+Uses react-script.
 
 
 Install react-scripts using the following command:
