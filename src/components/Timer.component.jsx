@@ -12,6 +12,9 @@ export const TimerComponent = () => {
   const [seconds, setSeconds] = useState(0);
   const [minutes, setMinutes] = useState(0);
 
+  // State for tracking pause status
+  const [paused, setPaused] = useState(false);
+
   // Function receives  time and updates UI with minutes and seconds left
   function pomodoroBreak(time) {
     clearInterval(interval);
@@ -20,7 +23,8 @@ export const TimerComponent = () => {
     time = time * 60;
 
     // Update UI with received time
-    setMinutes(Math.floor(time / 60));
+    if(parseInt(minutes) !== Math.floor(time / 60))
+      setMinutes(Math.floor(time / 60));
     setSeconds(time % 60);
 
     // Create an interval function to calculate the remaining minutes and seconds
@@ -30,6 +34,19 @@ export const TimerComponent = () => {
       setMinutes(Math.floor(time / 60));
       setSeconds(time % 60);
     }, 1000);
+    
+    setPaused(false);
+  }
+
+  function handlePause(){
+
+    // Resuming time if paused
+    if(paused)
+      pomodoroBreak(parseInt(minutes)  + (parseInt(seconds) / 60));
+    else
+      clearInterval(interval);
+
+    setPaused(!paused);
   }
 
   // Create useEffect function to update UI code while time is decreased
@@ -46,8 +63,10 @@ export const TimerComponent = () => {
       document.title = minutes + ":" + seconds
     };
 
-    updateUi();
-  }, [minutes, seconds]);
+    // UI should be updated only if the timer is not paused
+    if(!paused)
+      updateUi()
+  }, [minutes, seconds, paused]);
 
   return (
     <main className="d-flex align-items-center justify-content-center vh-90">
@@ -63,20 +82,21 @@ export const TimerComponent = () => {
           </span>
         </p>
 
-        <div className="row">
-          <div className="col-4"></div>
-          <div className="col-2" onClick={() => pomodoroBreak(25)} id="pomo">
+        <div className="row justify-content-center">
+          <div className="col-2" onClick={() => pomodoroBreak(25)} id="pomo" data-testid="pomo">
             Pomodoro
           </div>
           <div className="col-2" onClick={() => pomodoroBreak(5)} id="break">
             Break
           </div>
-          <div className="col-4"></div>
+          <div className={`col-2 ${paused ? "paused" : "resumed"}`} onClick={() => handlePause()} id="pause">
+            {paused ? "Resume" : "Pause"}
+          </div>
 
           <div className="container text-center">
             <div className="row">
               <div className="col-4"></div>
-              <div className="col-4 timer" ref={timerRef}>
+              <div className="col-4 timer" ref={timerRef} data-testid="timer">
                 00:00
               </div>
               <div className="col-4"></div>

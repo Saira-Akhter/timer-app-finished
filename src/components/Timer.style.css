@@ -28,7 +28,27 @@
 	margin: 1rem;
 	user-select: none;
 	cursor: pointer;
+}
 
+#pause{
+	font-family: 'Poppins', sans-serif;
+	font-size: 20px;
+	color: #9b9a9a ;
+	border: 2px #c2c2c2;
+	border-radius: 10px;
+	margin: 1rem;
+	user-select: none;
+	cursor: pointer;
+}
+
+.paused{
+	background-color: #d6d1d1;
+	color: #9b9a9a;
+}
+
+.resumed{
+	background-color: #f0868683;
+	color: #F08686;
 }
 
 #how{
