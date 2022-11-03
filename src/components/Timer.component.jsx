@@ -89,9 +89,7 @@ export const TimerComponent = () => {
           <div className="col-2" onClick={() => pomodoroBreak(5)} id="break">
             Break
           </div>
-          <div className={`col-2 ${paused ? "paused" : "resumed"}`} onClick={() => handlePause()} id="pause">
-            {paused ? "Resume" : "Pause"}
-          </div>
+          
 
           <div className="container text-center">
             <div className="row">
@@ -99,7 +97,10 @@ export const TimerComponent = () => {
               <div className="col-4 timer" ref={timerRef} data-testid="timer">
                 00:00
               </div>
-              <div className="col-4"></div>
+              <div className="col-5"></div>
+              <div className={`col-2 ${paused ? "paused" : "resumed"}`} onClick={() => handlePause()} id="pause">
+            {paused ? "Resume" : "Pause"}
+          </div>
             </div>
           </div>
         </div>
